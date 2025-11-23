@@ -8,7 +8,6 @@
     "dev": "concurrently \"npm run next-dev\" \"npm run fastapi\"",
     "build": "next build",
     "start": "next start",
-    "next-docker": "concurrently \"npm run build && npm run start\" \"npm run fastapi\"",
     "lint": "eslint"
   },
   "dependencies": {
