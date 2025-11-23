@@ -14,7 +14,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <nav className="container mx-auto px-6 py-6">
+    <nav className="container mx-auto p-2 md:p-6">
         <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
                 <span className="text-3xl">🏥</span>

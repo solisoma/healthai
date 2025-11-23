@@ -105,7 +105,7 @@ export default function Product() {
           <div className="max-w-4xl mx-auto pb-4">
             <header className="text-center mb-12">
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                🏥 Health Metrics Calculator
+                Health Metrics Calculator
               </h1>
               <p className="text-gray-600 dark:text-gray-300">
                 Calculate your BMI and get personalized AI health insights

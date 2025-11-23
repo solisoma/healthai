@@ -65,16 +65,16 @@ export default function LandingPage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 mt-20 max-w-2xl mx-auto">
               <div>
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">AI</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Powered Insights</div>
+                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 md:text-4xl md:font-bold ">AI</div>
+                <div className="text-[12px] text-gray-600 dark:text-gray-400 mt-1 md:text-sm">Powered Insights</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">Instant</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Results</div>
+                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 md:text-4xl md:font-bold ">Instant</div>
+                <div className="text-[12px] text-gray-600 dark:text-gray-400 mt-1 md:text-sm">Results</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">Smart</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Analytics</div>
+                <div className="text-2xl font-semibold text-blue-600 dark:text-blue-400 md:text-4xl md:font-bold ">Smart</div>
+                <div className="text-[12px] text-gray-600 dark:text-gray-400 mt-1 md:text-sm">Analytics</div>
               </div>
             </div>
           </div>
