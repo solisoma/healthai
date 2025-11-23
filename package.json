@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fastapi-dev": "pip3 install -r requirements.txt && py -m uvicorn api.index:app --reload",
+    "fastapi": "pip3 install -r requirements.txt && py -m uvicorn api.index:app",
     "next-dev": "next dev",
-    "dev": "concurrently \"npm run next-dev\" \"npm run fastapi-dev\"",
+    "dev": "concurrently \"npm run next-dev\" \"npm run fastapi\"",
     "build": "next build",
     "start": "next start",
+    "next-docker": "concurrently \"npm run build && npm run start\" \"npm run fastapi\"",
     "lint": "eslint"
   },
   "dependencies": {

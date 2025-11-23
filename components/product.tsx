@@ -26,9 +26,11 @@ export default function Product() {
     setLoading(true)
     setMetrics(null)
     setAiTips('')
+
+    const backendUrl = process.env.NEXT_PUBLIC_IS_DOCKERIZED === "true" ? "http://localhost:8000/api/health-metrics" : "/api/health-metrics"
   
     try {
-      await fetchEventSource('/api/health-metrics', {
+      await fetchEventSource(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,10 +44,8 @@ export default function Product() {
         }),
         
         onmessage(event) {
-          console.log("========== streaming event =========")
           try {
             const parsed = JSON.parse(event.data.replace(/'/g, '"'))
-            console.log("stream parsed:", parsed)
             
             if (parsed.type === 'metrics') {
               setMetrics({

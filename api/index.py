@@ -1,7 +1,7 @@
 import os
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from fastapi_clerk_auth import ClerkConfig, ClerkHTTPBearer, HTTPAuthorizationCredentials
 from openai import OpenAI
 from dotenv import load_dotenv
 from api.utils import HealthMetrics, calculate_bmi, calculate_bmr, calculate_tdee, get_prompt
@@ -11,17 +11,17 @@ load_dotenv()
 app = FastAPI()    
 client = OpenAI()
 
-clerk_config = ClerkConfig(jwks_url=os.getenv("CLERK_JWKS_URL"))
-clerk_guard = ClerkHTTPBearer(clerk_config)
+if os.getenv("NEXT_PUBLIC_IS_DOCKERIZED") == "true":
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 @app.post("/api/health-metrics")
-def calculate_health_metrics(
-    metrics: HealthMetrics,
-    # creds: HTTPAuthorizationCredentials = Depends(clerk_guard)
-):
-    # user_id = creds.decoded["sub"]
-    # print(f"Health metrics request from user: {user_id}")
-    
+def calculate_health_metrics(metrics: HealthMetrics):       
     # Calculate BMI
     bmi, category, status, ideal_min, ideal_max = calculate_bmi(metrics.height, metrics.weight)
     
@@ -57,3 +57,8 @@ def calculate_health_metrics(
         yield "data: {'type': 'done'}\n\n"
     
     return StreamingResponse(event_stream(), media_type="text/event-stream")
+
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok"}
