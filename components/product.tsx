@@ -45,7 +45,7 @@ export default function Product() {
         
         onmessage(event) {
           try {
-            const parsed = JSON.parse(event.data.replace(/'/g, '"'))
+            const parsed = JSON.parse(event.data)
             
             if (parsed.type === 'metrics') {
               setMetrics({

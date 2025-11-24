@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from dotenv import load_dotenv
-from api.utils import HealthMetrics, calculate_bmi, calculate_bmr, calculate_tdee, get_prompt
+from api.utils import HealthMetrics, calculate_bmi, calculate_bmr, calculate_tdee, get_prompt, serialize_data
 
 load_dotenv()
 
@@ -44,17 +44,23 @@ def calculate_health_metrics(metrics: HealthMetrics):
     # Prepare response with calculations and AI stream
     def event_stream():
         # Send calculations first
-        yield f"data: {{'type': 'metrics', 'bmi': {bmi}, 'category': '{category}', 'status': '{status}', 'ideal_weight_min': {ideal_min}, 'ideal_weight_max': {ideal_max}, 'bmr': {round(bmr)}, 'tdee': {tdee}}}\n\n"
+        yield serialize_data('metrics', {
+            "bmi": bmi,
+            "category": category,
+            "status": status,
+            "ideal_weight_min": ideal_min,
+            "ideal_weight_max": ideal_max,
+            "bmr": round(bmr),
+            "tdee": tdee
+        }, is_dict=True)
         
         # Then stream AI tips
         for chunk in stream:
             text = chunk.choices[0].delta.content
             if text:
-                # Escape special characters for JSON
-                text_escaped = text.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
-                yield f"data: {{'type': 'ai_tip', 'content': \"{text_escaped}\"}}\n\n"
+                yield serialize_data('ai_tip', text)
         
-        yield "data: {'type': 'done'}\n\n"
+        yield serialize_data('done', {}, is_dict=True)
     
     return StreamingResponse(event_stream(), media_type="text/event-stream")
 

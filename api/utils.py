@@ -1,3 +1,4 @@
+import json
 from pydantic import BaseModel
 
 class HealthMetrics(BaseModel):
@@ -49,6 +50,16 @@ def calculate_bmr(gender: str, weight: float, height: float, age: int) -> float:
 
 def calculate_tdee(bmr: float, activity_level: str) -> float:
     return round(bmr * ACTIVITY_MULTIPLIERS.get(activity_level, 1.2))
+
+def serialize_data(message_type: str, content: str|dict, is_dict: bool = False) -> str:
+    if is_dict:
+        data = {f"{key}": value for key, value in content.items()}
+        return f"data: {json.dumps({
+            "type": message_type,
+            **data
+        })}\n\n"
+    else:
+        return f"data: {json.dumps({'type': message_type, 'content': content})}\n\n"
 
 def get_prompt(bmi: str, category: str, tdee: float, metrics: HealthMetrics) -> str:
     return f"""You are a health and wellness advisor. Based on these health metrics, provide personalized, actionable health advice:
