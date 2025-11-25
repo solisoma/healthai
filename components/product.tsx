@@ -27,7 +27,7 @@ export default function Product() {
     setMetrics(null)
     setAiTips('')
 
-    const backendUrl = process.env.NEXT_PUBLIC_IS_DOCKERIZED === "true" ? "http://localhost:8000/api/health-metrics" : "/api/health-metrics"
+    const backendUrl = "/api/health-metrics"
   
     try {
       await fetchEventSource(backendUrl, {
